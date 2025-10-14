@@ -222,6 +222,10 @@ void Interpreter::execute(const std::unique_ptr<Statement>& node) {
         }
     } else if (auto* func = dynamic_cast<FuncDefStmt*>(node.get())) {
         functions[func->name] = func;
+        // Print message if function is GPU-accelerated
+        if (func->is_gpu) {
+            std::cout << "[GPU] Function '" << func->name << "' marked for GPU acceleration" << std::endl;
+        }
     } else if (auto* block = dynamic_cast<BlockStmt*>(node.get())) {
         for (auto& stmt: block->statements) execute(stmt);
     } else if (auto* ret = dynamic_cast<ReturnStmt*>(node.get())) {

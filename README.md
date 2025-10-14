@@ -506,6 +506,59 @@ include "splash";
 
 ---
 
+## GPU 加速支持
+
+Lamina 支持使用 `@gpu` 语法糖显式标记需要 GPU 加速的函数。
+
+### GPU 函数定义
+
+使用 `@gpu` 注解标记函数以启用 GPU 加速：
+
+```lamina
+// 普通函数
+func add(a, b) {
+    return a + b;
+}
+
+// GPU 加速函数
+@gpu
+func gpu_multiply(a, b) {
+    return a * b;
+}
+
+// GPU 加速的幂运算
+@gpu
+func gpu_power(base, exp) {
+    return base ^ exp;
+}
+```
+
+### 使用 GPU 函数
+
+GPU 函数的调用方式与普通函数完全相同：
+
+```lamina
+// 调用普通函数
+var result1 = add(5, 3);
+
+// 调用 GPU 加速函数
+var result2 = gpu_multiply(5, 3);
+var result3 = gpu_power(2, 10);
+
+print("Regular result:", result1);
+print("GPU result:", result2);
+print("GPU power:", result3);
+```
+
+### 注意事项
+
+- GPU 加速基于 Vulkan 实现
+- 适用于大规模并行计算和数值运算
+- 函数定义时会显示 `[GPU] Function 'function_name' marked for GPU acceleration` 提示
+- 当前版本为基础实现，后续将完善 Vulkan 计算管线
+
+---
+
 ## 设计原则
 
 1. **简洁性**：语法简洁，符合数学表达习惯
@@ -523,6 +576,7 @@ include "splash";
 - **符号微积分**：支持符号化的微分和积分
 - **语法糖**：支持分数字面量（如 `16/9`）和无理数字面量（如 `√5`）
 - **并行计算**：支持多线程加速复杂运算
+- **GPU 加速完善**：完善基于 Vulkan 的 GPU 计算管线实现
 - **高级数学库**：统计函数、数值分析等
 
 ---

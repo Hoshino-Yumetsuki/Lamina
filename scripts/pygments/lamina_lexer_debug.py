@@ -18,6 +18,9 @@ class LaminaLexer(RegexLexer):
         # root是语法分析的入口（所有代码从这里开始匹配）
         'root': [
             (r'\b(if|while|print|func|struct|else|visit)\b', Keyword.Control),
+            
+            # GPU annotation
+            (r'@gpu\b', Keyword.Declaration),
 
             (r'//.*$', Comment.Single),
 

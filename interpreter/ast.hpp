@@ -97,8 +97,9 @@ struct FuncDefStmt : public Statement {
     std::string name;
     std::vector<std::string> params;
     std::unique_ptr<BlockStmt> body;
-    FuncDefStmt(const std::string& n, const std::vector<std::string>& p, std::unique_ptr<BlockStmt> b)
-        : name(n), params(p), body(std::move(b)) {}
+    bool is_gpu;  // GPU acceleration flag
+    FuncDefStmt(const std::string& n, const std::vector<std::string>& p, std::unique_ptr<BlockStmt> b, bool gpu = false)
+        : name(n), params(p), body(std::move(b)), is_gpu(gpu) {}
 };
 
 // 函数调用

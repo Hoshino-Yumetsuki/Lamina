@@ -561,6 +561,15 @@ std::unique_ptr<Statement> Parser::parse_while(const std::vector<Token>& tokens,
 
 std::unique_ptr<Statement> Parser::parse_statement(const std::vector<Token>& tokens, size_t& i) {
     // std::cerr << "DEBUG: parse_statement starting at token " << i << std::endl;
+    
+    // Check for @gpu annotation before function definition
+    bool is_gpu = false;
+    if (tokens[i].type == TokenType::At && i + 1 < tokens.size() && 
+        tokens[i + 1].type == TokenType::Identifier && tokens[i + 1].text == "gpu") {
+        is_gpu = true;
+        i += 2;  // Skip '@gpu'
+    }
+    
     // Handle include statements first - only support quoted strings
     if (tokens[i].type == TokenType::Include && i + 1 < tokens.size()) {
         if (tokens[i + 1].type != TokenType::String) {
@@ -667,7 +676,7 @@ std::unique_ptr<Statement> Parser::parse_statement(const std::vector<Token>& tok
             DEBUG_OUT << "Debug - Function '" << name << "' body parsing completed" << std::endl;
 
             // Note: parse_block now handles the closing brace, so no need to check again
-            return std::make_unique<FuncDefStmt>(name, params, std::move(body));
+            return std::make_unique<FuncDefStmt>(name, params, std::move(body), is_gpu);
         } catch (const std::exception& e) {
             std::cerr << "\033[31mError: Error parsing function '" << name << "' body: " << e.what() << "\033[0m" << std::endl;
             // Try to recover: look for closing brace or function definition end marker

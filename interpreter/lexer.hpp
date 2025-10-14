@@ -41,6 +41,7 @@ enum class TokenType {
     RBracket,// ]
     Comma,
     Dot,// 新增
+    At,  // @ for annotations
     String,
     Semicolon,
     Plus,

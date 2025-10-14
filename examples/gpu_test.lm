@@ -1,0 +1,29 @@
+// GPU acceleration test example
+print("Testing GPU acceleration support");
+
+// Regular function
+func add(a, b) {
+    return a + b;
+}
+
+// GPU-accelerated function
+@gpu
+func gpu_multiply(a, b) {
+    return a * b;
+}
+
+// GPU-accelerated power function
+@gpu
+func gpu_power(base, exp) {
+    return base ^ exp;
+}
+
+// Test regular function
+print("Regular function: add(5, 3) =", add(5, 3));
+
+// Test GPU functions
+print("GPU function: gpu_multiply(5, 3) =", gpu_multiply(5, 3));
+print("GPU function: gpu_power(2, 10) =", gpu_power(2, 10));
+
+print("GPU test completed!");
+
